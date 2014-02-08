@@ -20,9 +20,9 @@ $(document).ready(function() {
 //could fix with a second array (painful) or making an array of pairs, i.e. {[growing, grow], virtualising, virtualise])
 var verbs = new Array("virtualising", "synergising", "calibrating", /*"growing", "impacting",*/ "leveraging", /*"transforming",*/ "revolutionizing", /*"relaying",*/ "deep diving", "offshoring");
 
-var nouns = new Array("cloud", "dot-bomb", "user experience", "milestones", "organic growth", "alignment", "ballpark figure", "synergy", "big data", "bandwidth", "brand", "core competency", "enterprise", "holistic", "low hanging fruit", "visibility", "diversity", "capability", "platform", "core assets", "best practice");
+var nouns = new Array("cloud", "dot-bomb", "user experience", "milestones", "organic growth", "alignment", "ballpark figure", "synergy", "big data", "bandwidth", "brand", "core competency", "enterprise", "low hanging fruit", "visibility", "diversity", "capability", "platform", "core assets", "best practice", "proposition", "enterprise", "stack");
 
-var adjectives = new Array("value-added", "mission critical", "immersive", "customer-focused");
+var adjectives = new Array("value-added", "mission critical", "immersive", "customer-focused", "holistic", "mobile", "end-to-end", "long-term");
 
 var adverbs = new Array("virtually", "strategically", "reliably", "globally", "proactively", "iteratively", "ethically", "intelligently");
 
