@@ -1,0 +1,106 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1753" measuredH="719" mockupW="1453" mockupH="706">
+  <controls>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="300" y="13" w="1102" h="706" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>10066329</color>
+        <text>Buzzword%20Ipsum%0Ahttp%3A//buzzwordipsum.com</text>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="__group__" x="571" y="112" w="561" h="557" measuredW="561" measuredH="557" zOrder="1" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="561" h="557" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="41"/>
+        <control controlID="1" controlTypeID="__group__" x="172" y="239" w="216" h="179" measuredW="216" measuredH="179" zOrder="1" locked="false" isInGroup="41">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="40" y="143" w="136" h="36" measuredW="104" measuredH="27" zOrder="0" locked="false" isInGroup="1">
+              <controlProperties>
+                <color>2848996</color>
+                <text>Move%20Forward</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="216" h="136" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="1"/>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::RadioButton" x="88" y="79" w="-1" h="-1" measuredW="83" measuredH="22" zOrder="2" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>Just%20Words</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::RadioButton" x="88" y="59" w="-1" h="-1" measuredW="80" measuredH="22" zOrder="3" locked="false" isInGroup="1">
+              <controlProperties>
+                <state>selected</state>
+                <text>Sentences</text>
+              </controlProperties>
+            </control>
+            <control controlID="4" controlTypeID="com.balsamiq.mockups::RadioButton" x="88" y="99" w="-1" h="-1" measuredW="113" measuredH="22" zOrder="4" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>-Tech%20Buzzwords-</text>
+              </controlProperties>
+            </control>
+            <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="11" y="18" w="-1" h="-1" measuredW="67" measuredH="21" zOrder="5" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>Paragraphs%3A</text>
+              </controlProperties>
+            </control>
+            <control controlID="6" controlTypeID="com.balsamiq.mockups::TextInput" x="88" y="18" w="82" h="-1" measuredW="23" measuredH="27" zOrder="6" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>-4-</text>
+              </controlProperties>
+            </control>
+            <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="9" y="58" w="-1" h="-1" measuredW="66" measuredH="21" zOrder="7" locked="false" isInGroup="1">
+              <controlProperties>
+                <text>Text%20types%3A</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Title" x="52" y="44" w="456" h="-1" measuredW="453" measuredH="63" zOrder="2" locked="false" isInGroup="41">
+          <controlProperties>
+            <size>60</size>
+            <text>Buzzword%20Ipsum</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="204" y="432" w="152" h="27" measuredW="152" measuredH="27" zOrder="3" locked="false" isInGroup="41">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="-1" h="-1" measuredW="65" measuredH="27" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <color>2848996</color>
+                <icon>FacebookIcon%7Cxsmall</icon>
+                <text>Like</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="74" y="0" w="-1" h="-1" measuredW="78" measuredH="27" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <icon>TwitterIcon%7Cxsmall</icon>
+                <text>Tweet</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::SubTitle" x="120" y="122" w="-1" h="-1" measuredW="320" measuredH="85" zOrder="4" locked="false" isInGroup="41">
+          <controlProperties>
+            <align>center</align>
+            <text>Need%20some%20filler%20text%20for%20your%5Cn%20webpage%2C%20but%20your%20manager%5Cn%20needs%20to%20be%20able%20to%20read%20it%3F</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="__group__" x="236" y="474" w="75" h="63" measuredW="75" measuredH="63" zOrder="5" locked="false" isInGroup="41">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::SubTitle" x="20" y="0" w="-1" h="-1" measuredW="36" measuredH="27" zOrder="0" locked="false" isInGroup="5">
+              <controlProperties>
+                <text>2.4</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="0" y="26" w="-1" h="-1" measuredW="75" measuredH="37" zOrder="1" locked="false" isInGroup="5">
+              <controlProperties>
+                <align>center</align>
+                <text>million%20words%5Cngenerated</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::StickyNote" x="1586" y="103" w="167" h="151" measuredW="109" measuredH="123" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Maybe%20replace%20header%20with%0Ahttp%3A//expo.getbootstrap.com/</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

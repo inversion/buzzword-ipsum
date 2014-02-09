@@ -1,16 +1,185 @@
 <!DOCTYPE html>
 <html>
+
+<style>
+
+/* Space out content a bit */
+body {
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-image:url('http://www.wikipronto.com/images/uploads/level_0/group_14/423124/merlin_mechanical_services_birmingham_ng.jpg');  
+	background-repeat:no-repeat;
+background-attachment:fixed;
+background-position:center; 
+  }
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+</style>
+
 <head>
     <script type="text/javascript" src="jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
 
     <link rel="stylesheet" type="text/css" href="default.css" />
+	
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->	
 </head>
 
 <body>
 
+<div role="main">
+
+	<div class="container">
+
+      <div class="jumbotron">
+        <h1>Buzzword Ipsum</h1>
+		<br>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+		<br>
+		
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<div class="col-xs-6 control-label" style="text-align:right"><label for="exampleInputEmail1">Paragraphs</label></div>
+				<div style="min-width:50px; max-width:50px"><input type="email" class="form-control" id="exampleInputEmail1" placeholder="4"></div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-xs-6 control-label" style="text-align:right"><label for="exampleCheckboxes">Type</label></div>
+				<div class="col-xs-6" id="exampleCheckboxes" style="text-align:left; padding-left:2px">
+					
+					<input type="radio" name="type" value="Sentences">Sentences
+					<br>
+					<input type="radio" name="type" value="Words">Words
+					
+				</div>
+			</div>
+			
+		</form>
+		
+		<button type="button" class="btn btn-primary btn-lg">Synergise me</button>
+		
+	  
+	  </div>
+<!--
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        </div>
+
+        <div class="col-lg-6">
+          <h4>Subheading</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>Subheading</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+          <h4>Subheading</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        </div>
+      </div>
+-->
+      <div class="footer">
+        <p>&copy; Company 2014</p>
+      </div>
+
+    </div> <!-- /container -->
+
+</div>
+
+<!--
 <img src="http://cdn2.hubspot.net/hub/53/file-23126818-jpg/blog/images/istock_000019234168xsmall.jpg">
-<p id="test"></p>
+<p id="test"></p>-->
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>
