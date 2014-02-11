@@ -1,5 +1,6 @@
 from flask import Flask, Response
 from flask.ext import restful
+from flask.ext.restful import reqparse
 import wordpicker
 
 app = Flask(__name__)
@@ -14,8 +15,11 @@ api = restful.Api(app)
 class BuzzwordIpsum(restful.Resource):
     def get(self):
         wp = wordPickerFactory()
+        parser = reqparse.RequestParser()
+        parser.add_argument('words', type=int, help='Number of words to return', default=app.config['DEFAULT_NUM_WORDS'])
+        args = parser.parse_args()
 
-        return Response(' '.join(wp.pickN('noun', app.config['DEFAULT_NUM_WORDS'])), content_type='text/plain')
+        return Response(' '.join(wp.pickN('noun', args.get('words'))), content_type='text/plain')
 
 
 def wordPickerFactory():

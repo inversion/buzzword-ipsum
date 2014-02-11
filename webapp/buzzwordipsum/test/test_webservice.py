@@ -11,7 +11,11 @@ class TestWebService(unittest.TestCase):
         self.app = webservice.app.test_client()
 
     def testWordPickerFactory(self):
+        # TODO: Not ideal that we need to remember to put this back at the end
+        # of the test
+        oldWebServiceConf = webservice.app.config
         webservice.app.config = {}
+
         self.assertRaises(KeyError, webservice.wordPickerFactory)
 
         testWords = wordpicker.Words().TEST
@@ -29,6 +33,8 @@ class TestWebService(unittest.TestCase):
         wp = webservice.wordPickerFactory()
         self.assertEquals(wp._seed, 1)
 
+        webservice.app.config = oldWebServiceConf
+
     def testPageFound(self):
         rv = self.app.get(webservice.app.config['ROUTE_NAME'])
         self.assertEquals(rv.status_code, httplib.OK)
@@ -37,3 +43,8 @@ class TestWebService(unittest.TestCase):
         rv = self.app.get(webservice.app.config['ROUTE_NAME'])
         wp = webservice.wordPickerFactory()
         self.assertEquals(rv.get_data().split(' '), wp.pickN('noun', webservice.app.config['DEFAULT_NUM_WORDS']))
+
+    def testWordsParamReturnsDifferentNumberOfWords(self):
+        rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=1')
+        wp = webservice.wordPickerFactory()
+        self.assertEquals(rv.get_data(), wp.pick('noun'))
