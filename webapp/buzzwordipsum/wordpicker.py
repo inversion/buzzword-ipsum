@@ -42,10 +42,7 @@ class WordPicker(object):
     def pickN(self, wordType, n):
         if n < 1:
             raise ValueError('Must pick >= 1 words')
-        words = []
-        for i in xrange(n):
-            words.append(self.pick(wordType))
-        return words
+        return [self.pick(wordType) for i in xrange(n)]
 
 
 class Words(object):

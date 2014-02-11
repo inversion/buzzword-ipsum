@@ -1,5 +1,4 @@
-import webservice
-import wordpicker
+from buzzwordipsum import webservice, wordpicker
 import unittest
 import httplib
 

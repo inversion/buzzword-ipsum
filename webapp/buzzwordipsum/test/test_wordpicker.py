@@ -1,5 +1,5 @@
 import unittest
-from wordpicker import WordPicker, Words
+from buzzwordipsum.wordpicker import WordPicker, Words
 
 
 class TestWordPicker(unittest.TestCase):

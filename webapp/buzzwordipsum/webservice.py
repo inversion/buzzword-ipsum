@@ -1,5 +1,5 @@
 from flask import Flask
-import wordpicker
+from buzzwordipsum import wordpicker
 app = Flask(__name__)
 
 app.config.update({
