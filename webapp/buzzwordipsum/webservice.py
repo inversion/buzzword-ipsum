@@ -1,12 +1,21 @@
-from flask import Flask
-from buzzwordipsum import wordpicker
-app = Flask(__name__)
+from flask import Flask, Response
+from flask.ext import restful
+import wordpicker
 
+app = Flask(__name__)
 app.config.update({
     'ROUTE_NAME': '/buzzwords',
     'DEFAULT_NUM_WORDS': 3,
     'WordPicker.wordTypes': wordpicker.Words().ALL
 })
+api = restful.Api(app)
+
+
+class BuzzwordIpsum(restful.Resource):
+    def get(self):
+        wp = wordPickerFactory()
+
+        return Response(' '.join(wp.pickN('noun', app.config['DEFAULT_NUM_WORDS'])), content_type='text/plain')
 
 
 def wordPickerFactory():
@@ -23,13 +32,8 @@ def wordPickerFactory():
     wp = wordpicker.WordPicker(app.config['WordPicker.wordTypes'], **wpKwargs)
     return wp
 
-
-@app.route(app.config['ROUTE_NAME'])
-def main():
-    wp = wordPickerFactory()
-
-    return ' '.join(wp.pickN('noun', app.config['DEFAULT_NUM_WORDS']))
+api.add_resource(BuzzwordIpsum, app.config['ROUTE_NAME'])
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
