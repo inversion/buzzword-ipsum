@@ -1,6 +1,5 @@
 import unittest
-from WordPicker import WordPicker
-from Words import Words
+from wordpicker import WordPicker, Words
 
 
 class TestWordPicker(unittest.TestCase):
@@ -46,3 +45,11 @@ class TestWordPicker(unittest.TestCase):
             self.assertEquals(wp.pick('noun'), 'milestones')
 
             self.assertEquals(wp.pick('verb'), 'virtualising')
+
+    def testPickN(self):
+        wp = WordPicker(Words().TEST, doShuffles=False)
+        self.assertRaises(ValueError, wp.pickN, 'noun', 0)
+        self.assertRaises(ValueError, wp.pickN, 'noun', -1)
+        self.assertEquals(['cloud'], wp.pickN('noun', 1))
+        self.assertEquals(['dot-bomb', 'milestones'], wp.pickN('noun', 2))
+
