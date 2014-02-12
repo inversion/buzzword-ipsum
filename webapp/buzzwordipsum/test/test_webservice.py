@@ -53,3 +53,12 @@ class TestWebService(unittest.TestCase):
             rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=' + q)
             wp = webservice.wordPickerFactory()
             self.assertEquals(rv.status_code, httplib.BAD_REQUEST)
+
+    def testMaxNumberOfWordsFunctions(self):
+        rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=' + str(webservice.app.config['MAX_WORDS_PER_REQUEST']))
+        self.assertEquals(rv.status_code, httplib.OK)
+
+        rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=' + str(webservice.app.config['MAX_WORDS_PER_REQUEST'] + 1))
+        self.assertEquals(rv.status_code, httplib.BAD_REQUEST)
+        self.assertEquals(rv.data, '{"message": "Number of words: positive integer <= ' + str(webservice.app.config['MAX_WORDS_PER_REQUEST']) + '"}')
+

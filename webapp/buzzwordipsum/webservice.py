@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config.update({
     'ROUTE_NAME': '/buzzwords',
     'DEFAULT_NUM_WORDS': 3,
+    'MAX_WORDS_PER_REQUEST': 4096,
     'WordPicker.wordTypes': wordpicker.Words().ALL
 })
 api = restful.Api(app)
@@ -16,19 +17,18 @@ class BuzzwordIpsum(restful.Resource):
     def get(self):
         wp = wordPickerFactory()
         parser = reqparse.RequestParser()
-        parser.add_argument('words', type=checkPositiveIntArg, help='Number of words to return', default=app.config['DEFAULT_NUM_WORDS'])
+        parser.add_argument('words', type=checkWordsArg, help='Number of words: positive integer <= ' + str(app.config.get('MAX_WORDS_PER_REQUEST', 4096)), default=app.config['DEFAULT_NUM_WORDS'])
         args = parser.parse_args()
 
         return Response(' '.join(wp.pickN('noun', args.get('words'))), content_type='text/plain')
 
-def checkPositiveIntArg(x):
-    errMsg = 'Number must be positive integer'
+def checkWordsArg(x):
     try:
         x = int(str(x))
-        if x < 1:
-            raise ValidationError(errMsg)
+        if x < 1 or x > app.config.get('MAX_WORDS_PER_REQUEST', 4096):
+            raise ValidationError()
     except ValueError:
-        raise ValidationError(errMsg)
+        raise ValidationError()
     return x
 
 def wordPickerFactory():
