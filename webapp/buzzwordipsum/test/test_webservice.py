@@ -48,3 +48,8 @@ class TestWebService(unittest.TestCase):
         rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=1')
         wp = webservice.wordPickerFactory()
         self.assertEquals(rv.get_data(), wp.pick('noun'))
+
+        for q in ['0', 'blah', '', ' ', '1.2', '-1']:
+            rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=' + q)
+            wp = webservice.wordPickerFactory()
+            self.assertEquals(rv.status_code, httplib.BAD_REQUEST)

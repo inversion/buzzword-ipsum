@@ -16,11 +16,20 @@ class BuzzwordIpsum(restful.Resource):
     def get(self):
         wp = wordPickerFactory()
         parser = reqparse.RequestParser()
-        parser.add_argument('words', type=int, help='Number of words to return', default=app.config['DEFAULT_NUM_WORDS'])
+        parser.add_argument('words', type=checkPositiveIntArg, help='Number of words to return', default=app.config['DEFAULT_NUM_WORDS'])
         args = parser.parse_args()
 
         return Response(' '.join(wp.pickN('noun', args.get('words'))), content_type='text/plain')
 
+def checkPositiveIntArg(x):
+    errMsg = 'Number must be positive integer'
+    try:
+        x = int(str(x))
+        if x < 1:
+            raise ValidationError(errMsg)
+    except ValueError:
+        raise ValidationError(errMsg)
+    return x
 
 def wordPickerFactory():
     """Construct word picker using app config if values are set
