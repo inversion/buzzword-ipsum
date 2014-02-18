@@ -1,64 +1,82 @@
-from buzzwordipsum import webservice, wordpicker
+from buzzwordipsum import webservice as ws, wordpicker
 import unittest
 import httplib
 
 class TestWebService(unittest.TestCase):
 
     def setUp(self):
-        webservice.app.config['TESTING'] = True
-        webservice.app.config['WordPicker.wordTypes'] = wordpicker.Words().TEST
-        webservice.app.config['WordPicker.doShuffles'] = False
-        self.app = webservice.app.test_client()
+        ws.app.config['TESTING'] = True
+        ws.app.config['WordPicker.wordTypes'] = wordpicker.Words().TEST
+        ws.app.config['WordPicker.doShuffles'] = False
+        self.app = ws.app.test_client()
 
     def testWordPickerFactory(self):
         # TODO: Not ideal that we need to remember to put this back at the end
         # of the test
-        oldWebServiceConf = webservice.app.config
-        webservice.app.config = {}
+        oldWebServiceConf = ws.app.config
+        ws.app.config = {}
 
-        self.assertRaises(KeyError, webservice.wordPickerFactory)
+        self.assertRaises(KeyError, ws.wordPickerFactory)
 
         testWords = wordpicker.Words().TEST
-        webservice.app.config = {'WordPicker.wordTypes': testWords}
-        wp = webservice.wordPickerFactory()
+        ws.app.config = {'WordPicker.wordTypes': testWords}
+        wp = ws.wordPickerFactory()
         self.assertEquals(wp._wordTypes, testWords)
         self.assertTrue(wp._doShuffles)
         self.assertIsNone(wp._seed)
 
-        webservice.app.config['WordPicker.doShuffles'] = False
-        wp = webservice.wordPickerFactory()
+        ws.app.config['WordPicker.doShuffles'] = False
+        wp = ws.wordPickerFactory()
         self.assertFalse(wp._doShuffles)
 
-        webservice.app.config['WordPicker.seed'] = 1
-        wp = webservice.wordPickerFactory()
+        ws.app.config['WordPicker.seed'] = 1
+        wp = ws.wordPickerFactory()
         self.assertEquals(wp._seed, 1)
 
-        webservice.app.config = oldWebServiceConf
+        ws.app.config = oldWebServiceConf
 
     def testPageFound(self):
-        rv = self.app.get(webservice.app.config['ROUTE_NAME'])
+        rv = self.app.get(ws.app.config['ROUTE_NAME'])
         self.assertEquals(rv.status_code, httplib.OK)
 
-    def testNoParamsReturnsDefaultNumberOfNouns(self):
-        rv = self.app.get(webservice.app.config['ROUTE_NAME'])
-        wp = webservice.wordPickerFactory()
-        self.assertEquals(rv.get_data().split(' '), wp.pickN('noun', webservice.app.config['DEFAULT_NUM_WORDS']))
+    def testNoParamsReturnsDefaultNumberOfParasWithExpectedWords(self):
+        rv = self.app.get(ws.app.config['ROUTE_NAME'])
+        wp = ws.wordPickerFactory()
+        self.assertEquals(rv.get_data(),
+                            '\n\n'.join([' '.join(wp.pickN('noun', ws.app.config['WORDS_PER_PARAGRAPH'])) for i in xrange(ws.app.config['DEFAULT_NUM_PARAGRAPHS'])]) + '\n')
 
-    def testWordsParamReturnsDifferentNumberOfWords(self):
-        rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=1')
-        wp = webservice.wordPickerFactory()
-        self.assertEquals(rv.get_data(), wp.pick('noun'))
+    def testParagraphsParamReturnsDifferentNumberOfParagraphs(self):
+        rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='paragraphs=1')
+        wp = ws.wordPickerFactory()
+        self.assertEquals(rv.get_data(), ' '.join(wp.pickN('noun', ws.app.config['WORDS_PER_PARAGRAPH'])) + '\n')
 
         for q in ['0', 'blah', '', ' ', '1.2', '-1']:
-            rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=' + q)
-            wp = webservice.wordPickerFactory()
+            rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='paragraphs=' + q)
+            wp = ws.wordPickerFactory()
             self.assertEquals(rv.status_code, httplib.BAD_REQUEST)
 
-    def testMaxNumberOfWordsFunctions(self):
-        rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=' + str(webservice.app.config['MAX_WORDS_PER_REQUEST']))
+    def testMaxNumberOfParagraphsFunctions(self):
+        rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='paragraphs=' + str(ws.app.config['MAX_NUM_PARAGRAPHS']))
         self.assertEquals(rv.status_code, httplib.OK)
 
-        rv = self.app.get(webservice.app.config['ROUTE_NAME'], query_string='words=' + str(webservice.app.config['MAX_WORDS_PER_REQUEST'] + 1))
+        rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='paragraphs=' + str(ws.app.config['MAX_NUM_PARAGRAPHS'] + 1))
         self.assertEquals(rv.status_code, httplib.BAD_REQUEST)
-        self.assertEquals(rv.data, '{"message": "Number of words: positive integer <= ' + str(webservice.app.config['MAX_WORDS_PER_REQUEST']) + '"}')
+        self.assertEquals(rv.data, '{"message": "Number of paragraphs: positive integer <= ' + str(ws.app.config['MAX_NUM_PARAGRAPHS']) + '"}')
 
+    def testHTMLResponse(self):
+        rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='format=html&paragraphs=1')
+        self.assertEquals(rv.content_type, 'text/html')
+        wp = ws.wordPickerFactory()
+        self.assertEquals(rv.data, '<p>' + ' '.join(wp.pickN('noun', ws.app.config['WORDS_PER_PARAGRAPH'])) + '</p>\n')
+
+    def testInvalidFormatFails(self):
+        rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='format=blah')
+        self.assertEquals(rv.status_code, httplib.BAD_REQUEST)
+
+    def testInvalidTypeFails(self):
+        rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='type=blah')
+        self.assertEquals(rv.status_code, httplib.BAD_REQUEST)
+
+    def testValidTypeSucceeds(self):
+        rv = self.app.get(ws.app.config['ROUTE_NAME'], query_string='type=words')
+        self.assertEquals(rv.status_code, httplib.OK)

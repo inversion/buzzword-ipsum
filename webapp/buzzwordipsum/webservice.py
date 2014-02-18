@@ -6,8 +6,10 @@ import wordpicker
 app = Flask(__name__)
 app.config.update({
     'ROUTE_NAME': '/buzzwords',
-    'DEFAULT_NUM_WORDS': 3,
-    'MAX_WORDS_PER_REQUEST': 4096,
+    'DEFAULT_NUM_PARAGRAPHS': 3,
+    'MAX_NUM_PARAGRAPHS': 50,
+    'SENTENCES_PER_PARAGRAPH': 4,
+    'WORDS_PER_PARAGRAPH': 40,
     'WordPicker.wordTypes': wordpicker.Words().ALL
 })
 api = restful.Api(app)
@@ -17,15 +19,38 @@ class BuzzwordIpsum(restful.Resource):
     def get(self):
         wp = wordPickerFactory()
         parser = reqparse.RequestParser()
-        parser.add_argument('words', type=checkWordsArg, help='Number of words: positive integer <= ' + str(app.config.get('MAX_WORDS_PER_REQUEST', 4096)), default=app.config['DEFAULT_NUM_WORDS'])
+        parser.add_argument('paragraphs',
+                            type=checkParagraphsArg,
+                            help='Number of paragraphs: positive integer <= ' + str(app.config['MAX_NUM_PARAGRAPHS']),
+                            default=app.config['DEFAULT_NUM_PARAGRAPHS'])
+        parser.add_argument('type',
+                            type=str,
+                            choices=('words'),
+                            dest='proseType',
+                            help='Type: \'words\'',
+                            default='words')
+        parser.add_argument('format',
+                            type=str,
+                            choices=('html', 'text'),
+                            help='Format: \'html\' or \'text\' (default)',
+                            default='text')
         args = parser.parse_args()
 
-        return Response(' '.join(wp.pickN('noun', args.get('words'))), content_type='text/plain')
+        paragraphs = [makeParagraph(args['proseType'], wp) for i in xrange(args['paragraphs'])]
 
-def checkWordsArg(x):
+        if args['format'] == 'text':
+            return Response('\n\n'.join(paragraphs) + '\n', content_type='text/plain')
+        elif args['format'] == 'html':
+            return Response('\n\n'.join('<p>{}</p>'.format(p) for p in paragraphs) + '\n', content_type='text/html')
+
+def makeParagraph(proseType, wp):
+    if proseType == 'words':
+        return ' '.join(wp.pickN('noun', app.config['WORDS_PER_PARAGRAPH']))
+
+def checkParagraphsArg(x):
     try:
         x = int(str(x))
-        if x < 1 or x > app.config.get('MAX_WORDS_PER_REQUEST', 4096):
+        if x < 1 or x > app.config['MAX_NUM_PARAGRAPHS']:
             raise ValidationError()
     except ValueError:
         raise ValidationError()
