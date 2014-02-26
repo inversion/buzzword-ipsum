@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>Buzzword Ipsum</title>
     <link rel="stylesheet" type="text/css" href="css/default.css" />
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 	<!--[if lt IE 9]>
@@ -16,63 +17,42 @@
 
 	<div class="container">
 
-      <div class="jumbotron">
+    <div class="jumbotron"><!-- lets just abuse this class and chuck the footer in as well to make it look less bad -->
         <h1>Buzzword Ipsum</h1>
 		<br>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+    <p class="lead">Buzzwords-as-a-Service (<b>B</b>aa<b>S</b>)</p> <!-- outdated bold tags ftw -->
 		<br>
 		
-		<form class="form-horizontal" role="form">
+		<form class="form-horizontal" role="form" id="getText">
 			<div class="form-group">
-				<div class="col-xs-6 control-label" style="text-align:right"><label for="exampleInputEmail1">Paragraphs</label></div>
-				<div style="min-width:50px; max-width:50px"><input type="text" class="form-control" id="paragraphs" placeholder="4" /></div>
+				<div class="col-xs-6 control-label" style="text-align:right"><label for="paragraphs">Paragraphs</label></div>
+        <div style="min-width:50px; max-width:50px"><input type="text" class="form-control" id="paragraphs" value="4" name="paragraphs"  placeholder="4" /></div><!-- fix placeholder usage (makes it submit empty value) -->
 			</div>
 			
 			<div class="form-group">
 				<div class="col-xs-6 control-label" style="text-align:right"><label for="exampleCheckboxes">Type</label></div>
 				<div class="col-xs-6" id="exampleCheckboxes" style="text-align:left; padding-left:2px">
 				    <div>	
-                        <input type="radio" name="type" value="sentences" id="typeSentences" />
-                        <label for="typeSentences">Sentences</label>
+                        <input type="radio" name="type" disabled="disabled" value="sentences" id="typeSentences" />
+                        <label for="typeSentences">Sentences (Emerging competency)</label>
                     </div>
                     <div>
-                        <input type="radio" name="type" value="words" id="typeWords" />
+                        <input type="radio" name="type" value="words" checked="checked" id="typeWords" />
                         <label for="typeWords">Words</label>
                     </div>
 				</div>
 			</div>
 		    <input type="submit" class="btn btn-primary btn-lg" value="Synergise me" />
 		</form>
-		
-	  </div>
-<!--
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
-
-        <div class="col-lg-6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
+      <br /> <!-- dem hacks -->
+		  <div id="textOut">
       </div>
--->
+    
       <div class="footer">
-        <p>&copy; Company 2014</p>
+        <p>&copy; &reg; &trade; Cloudzilla 2014</p>
       </div>
+	  </div>
+
 
     </div> <!-- /container -->
 
