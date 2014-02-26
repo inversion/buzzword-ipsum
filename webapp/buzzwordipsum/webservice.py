@@ -5,7 +5,7 @@ import wordpicker
 
 app = Flask(__name__)
 app.config.update({
-    'ROUTE_NAME': '/buzzwords',
+    'ROUTE_NAME': '/',
     'DEFAULT_NUM_PARAGRAPHS': 3,
     'MAX_NUM_PARAGRAPHS': 50,
     'SENTENCES_PER_PARAGRAPH': 4,
