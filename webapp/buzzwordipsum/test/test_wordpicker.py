@@ -7,21 +7,21 @@ class TestWordPicker(unittest.TestCase):
     def testInitShuffles(self):
         wp = WordPicker(Words().TEST, seed=1)
 
-        self.assertEquals(wp._wordTypes, {'adjective': ['value-added'], 'verb': ['virtualising'], 'noun': ['dot-bomb', 'milestones', 'cloud'], 'adverb': ['virtually']})
+        self.assertEquals(wp._wordTypes, {'adjective': ['value-added'], 'verb': ['virtualise'], 'noun': ['dot-bomb', 'milestone', 'cloud'], 'adverb': ['virtually']})
 
     def testPickWithShuffles(self):
         wp = WordPicker(Words().TEST, seed=1)
 
         self.assertEquals(wp.pick('noun'), 'dot-bomb')
-        self.assertEquals(wp.pick('noun'), 'milestones')
+        self.assertEquals(wp.pick('noun'), 'milestone')
         self.assertEquals(wp.pick('noun'), 'cloud')
 
         self.assertEquals(wp.pick('noun'), 'cloud')
         self.assertEquals(wp.pick('noun'), 'dot-bomb')
-        self.assertEquals(wp.pick('noun'), 'milestones')
+        self.assertEquals(wp.pick('noun'), 'milestone')
 
         self.assertEquals(wp.pick('noun'), 'cloud')
-        self.assertEquals(wp.pick('noun'), 'milestones')
+        self.assertEquals(wp.pick('noun'), 'milestone')
         self.assertEquals(wp.pick('noun'), 'dot-bomb')
 
     def testPickWithShufflesOneWordInList(self):
@@ -42,14 +42,14 @@ class TestWordPicker(unittest.TestCase):
         for i in xrange(2):
             self.assertEquals(wp.pick('noun'), 'cloud')
             self.assertEquals(wp.pick('noun'), 'dot-bomb')
-            self.assertEquals(wp.pick('noun'), 'milestones')
+            self.assertEquals(wp.pick('noun'), 'milestone')
 
-            self.assertEquals(wp.pick('verb'), 'virtualising')
+            self.assertEquals(wp.pick('verb'), 'virtualise')
 
     def testPickN(self):
         wp = WordPicker(Words().TEST, doShuffles=False)
         self.assertRaises(ValueError, wp.pickN, 'noun', 0)
         self.assertRaises(ValueError, wp.pickN, 'noun', -1)
         self.assertEquals(['cloud'], wp.pickN('noun', 1))
-        self.assertEquals(['dot-bomb', 'milestones'], wp.pickN('noun', 2))
+        self.assertEquals(['dot-bomb', 'milestone'], wp.pickN('noun', 2))
 

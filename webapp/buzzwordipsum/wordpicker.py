@@ -44,39 +44,49 @@ class WordPicker(object):
             raise ValueError('Must pick >= 1 words')
         return [self.pick(wordType) for i in xrange(n)]
 
+    @classmethod
+    def factory(cls, conf):
+        """Construct word picker using app config if values are set
+        (except WordPicker.wordTypes which must be set)"""
+
+        kwargs = {}
+        seed = conf.get('random.seed')
+        if seed is not None:
+            kwargs['seed'] = seed
+        doShuffles = conf.get('WordPicker.doShuffles')
+        if doShuffles is not None:
+            kwargs['doShuffles'] = doShuffles
+        wp = cls(conf['WordPicker.wordTypes'], **kwargs)
+        return wp
+
 
 class Words(object):
 
     def __init__(self):
-        #NB: verbs must make sense as -ing and -e, i.e. "calibrating/calibrate" is fine but not "growing/growe"
-        #could fix with a second array (painful) or making an array of pairs, i.e. {[growing, grow], virtualising, virtualise])
-        self.ALL = {'verb': ['virtualising', 'synergising',
-                                        'calibrating',
-                                        #'growing', 'impacting',
-                                            'leveraging',
-                                        #'transforming',
-                                            'revolutionizing',
-                                        #'relaying',
-                                            'deep diving',
-                                        'offshoring'],
-            'noun': ['cloud', 'dot-bomb', 'user experience', 'milestones',
+        self.ALL = {'verb': ['virtualise', 'synergise', 'calibrate',
+                             'grow', 'impact', 'leverage',
+                             'transform', 'revolutionize', 'relay',
+                             'deep-dive', 'offshore', 'integrate',
+                             'reuse', 'align', 'connect'],
+            'noun': ['cloud', 'dot-bomb', 'user experience', 'milestone',
                         'organic growth', 'alignment', 'ballpark figure',
                         'synergy', 'big data', 'bandwidth', 'brand',
                         'corecompetency', 'enterprise', 'low hanging fruit',
                         'visibility', 'diversity', 'capability', 'platform',
-                        'core assets', 'best practice', 'proposition',
-                        'enterprise', 'stack'],
+                        'core asset', 'best practice', 'proposition',
+                        'enterprise', 'stack', 'capability', 'market focus'],
             'adjective': ['value-added', 'mission critical', 'immersive',
                                 'customer-focused', 'holistic', 'mobile',
                                 'end-to-end', 'long-term'],
-            'adverb': ['virtually', 'strategically', 'reliably', 'globally',
+            'adverb': ['effectively', 'dynamically', 'virtually', 'strategically', 'reliably', 'globally',
                             'proactively', 'iteratively', 'ethically',
                             'intelligently']
             }
 
-        self.TEST = {'verb': ['virtualising'],
-                'noun': ['cloud', 'dot-bomb', 'milestones'],
+        self.TEST = {'verb': ['virtualise'],
+                'noun': ['cloud', 'dot-bomb', 'milestone'],
                 'adjective': ['value-added'],
                 'adverb': ['virtually'],
                 'shouldBeRemoved': []}
+
 

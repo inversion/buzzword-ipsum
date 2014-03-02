@@ -1,7 +1,8 @@
 from flask import Flask, Response
 from flask.ext import restful
 from flask.ext.restful import reqparse
-import wordpicker
+from wordpicker import WordPicker, Words
+from sentencegenerator import SentenceGenerator, Sentences
 
 app = Flask(__name__)
 app.config.update({
@@ -10,14 +11,17 @@ app.config.update({
     'MAX_NUM_PARAGRAPHS': 50,
     'SENTENCES_PER_PARAGRAPH': 4,
     'WORDS_PER_PARAGRAPH': 40,
-    'WordPicker.wordTypes': wordpicker.Words().ALL
+    'WordPicker.wordTypes': Words().ALL,
+    'SentenceGenerator.sentences': Sentences().ALL
 })
 api = restful.Api(app)
 
 
 class BuzzwordIpsum(restful.Resource):
     def get(self):
-        wp = wordPickerFactory()
+        wp = WordPicker.factory(app.config)
+        sg = SentenceGenerator.factory(app.config, wp)
+
         parser = reqparse.RequestParser()
         parser.add_argument('paragraphs',
                             type=checkParagraphsArg,
@@ -25,9 +29,9 @@ class BuzzwordIpsum(restful.Resource):
                             default=app.config['DEFAULT_NUM_PARAGRAPHS'])
         parser.add_argument('type',
                             type=str,
-                            choices=('words'),
+                            choices=('words', 'sentences'),
                             dest='proseType',
-                            help='Type: \'words\'',
+                            help='Type: \'words\', \'sentences\'',
                             default='words')
         parser.add_argument('format',
                             type=str,
@@ -36,16 +40,18 @@ class BuzzwordIpsum(restful.Resource):
                             default='text')
         args = parser.parse_args()
 
-        paragraphs = [makeParagraph(args['proseType'], wp) for i in xrange(args['paragraphs'])]
+        paragraphs = [makeParagraph(args['proseType'], wp, sg) for i in xrange(args['paragraphs'])]
 
         if args['format'] == 'text':
             return Response('\n\n'.join(paragraphs) + '\n', content_type='text/plain')
         elif args['format'] == 'html':
             return Response('\n\n'.join('<p>{}</p>'.format(p) for p in paragraphs) + '\n', content_type='text/html')
 
-def makeParagraph(proseType, wp):
+def makeParagraph(proseType, wp, sg):
     if proseType == 'words':
         return ' '.join(wp.pickN('noun', app.config['WORDS_PER_PARAGRAPH']))
+    elif proseType == 'sentences':
+        return ' '.join([sg.getSentence() for i in xrange(app.config['SENTENCES_PER_PARAGRAPH'])])
 
 def checkParagraphsArg(x):
     try:
@@ -55,20 +61,6 @@ def checkParagraphsArg(x):
     except ValueError:
         raise ValidationError()
     return x
-
-def wordPickerFactory():
-    """Construct word picker using app config if values are set
-    (except WordPicker.wordTypes which must be set)"""
-
-    wpKwargs = {}
-    wpSeed = app.config.get('WordPicker.seed')
-    if wpSeed is not None:
-        wpKwargs['seed'] = wpSeed
-    wpDoShuffles = app.config.get('WordPicker.doShuffles')
-    if wpDoShuffles is not None:
-        wpKwargs['doShuffles'] = wpDoShuffles
-    wp = wordpicker.WordPicker(app.config['WordPicker.wordTypes'], **wpKwargs)
-    return wp
 
 api.add_resource(BuzzwordIpsum, app.config['ROUTE_NAME'])
 
