@@ -71,7 +71,7 @@ class Words(object):
             'noun': ['cloud', 'dot-bomb', 'user experience', 'milestone',
                         'organic growth', 'alignment', 'ballpark figure',
                         'synergy', 'big data', 'bandwidth', 'brand',
-                        'corecompetency', 'enterprise', 'low hanging fruit',
+                        'core competency', 'enterprise', 'low hanging fruit',
                         'visibility', 'diversity', 'capability', 'platform',
                         'core asset', 'best practice', 'proposition',
                         'enterprise', 'stack', 'capability', 'market focus'],
