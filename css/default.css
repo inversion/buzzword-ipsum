@@ -6,6 +6,7 @@ p {
     font-size: 120%;
 }
 
+
 /* Space out content a bit */
 body {
 
@@ -58,6 +59,7 @@ background-position:center;
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
+  box-shadow: 12px 12px 16px #444444;
 }
 .jumbotron .btn {
   font-size: 21px;
