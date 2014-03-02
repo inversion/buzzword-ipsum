@@ -69,5 +69,6 @@ class Sentences(object):
                     # TODO: May need to use pattern module pluralisation instead of appending s
                     'Our business [verb]s our [noun] to [adverb] and [adverb] [verb] our [adjective] [noun].',
                     '[adverb] [verb, PARTICIPLE] the [adverb] [adjective] [noun] is crucial to our [adjective] [noun].',
-                    'In the future, will you be able to [adverb] [verb] [noun]s in your business?']
+                    'In the future, will you be able to [adverb] [verb] [noun, PLURAL] in your business?',
+                    'In the [noun] space, industry is [adverb] [verb, PARTICIPLE] its [adjective] [noun, PLURAL].']
 
