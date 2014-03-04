@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  'use strict';
+
   $('form#getText').submit(function(event) {
     $.ajax({
       url: '/buzzwords?format=html',
