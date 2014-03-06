@@ -37,6 +37,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-nose');
 
+  grunt.registerTask('forceOn', 'turns the --force option ON',
+    function() {
+      if ( !grunt.option( 'force' ) ) {
+        grunt.config.set('forceStatus', true);
+        grunt.option( 'force', true );
+      }
+    });
+
+  grunt.registerTask('forceOff', 'turns the --force option Off',
+    function() {
+      if ( grunt.config.get('forceStatus') ) {
+        grunt.option( 'force', false );
+      }
+    });
+
   grunt.registerTask('deploy',
     'Deploy to the target locations --wsgi-target and --static-target.',
     function() {
@@ -52,7 +67,7 @@ module.exports = function(grunt) {
         }
         grunt.config.set(key, dir);
       }
-      grunt.task.run(['jshint', 'nose', 'clean', 'copy']);
+      grunt.task.run(['jshint', 'nose', 'forceOn', 'clean', 'forceOff', 'copy']);
     }
   );
 
