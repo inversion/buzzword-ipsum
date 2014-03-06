@@ -85,7 +85,7 @@ class Words(object):
                                 'customer-focused', 'holistic', 'mobile',
                                 'end-to-end', 'long-term', 'proactive',
                                 'best-of-breed', 'seamless', 'competitive',
-                                'actionable', 'innovative'],
+                                'actionable', 'innovative', 'best-in-class'],
             'adverb': ['effectively', 'dynamically', 'virtually', 'strategically', 'reliably', 'globally',
                             'proactively', 'iteratively', 'ethically',
                             'intelligently']
