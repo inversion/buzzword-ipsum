@@ -1,2 +1,2 @@
 import buzzwordipsum.webservice as ws
-app = ws.make_app_production()
+application = ws.make_app_production()
