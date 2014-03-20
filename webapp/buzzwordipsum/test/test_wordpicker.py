@@ -1,55 +1,53 @@
-import unittest
 from buzzwordipsum.wordpicker import WordPicker, Words
+import pytest
 
+def testInitShuffles():
+    wp = WordPicker(Words().TEST, seed=1)
 
-class TestWordPicker(unittest.TestCase):
+    assert wp._wordTypes == {'adjective': ['value-added'], 'verb': ['virtualise'], 'noun': ['dot-bomb', 'milestone', 'cloud'], 'adverb': ['virtually']}
 
-    def testInitShuffles(self):
-        wp = WordPicker(Words().TEST, seed=1)
+def testPickWithShuffles():
+    wp = WordPicker(Words().TEST, seed=1)
 
-        self.assertEquals(wp._wordTypes, {'adjective': ['value-added'], 'verb': ['virtualise'], 'noun': ['dot-bomb', 'milestone', 'cloud'], 'adverb': ['virtually']})
+    assert wp.pick('noun') == 'dot-bomb'
+    assert wp.pick('noun') == 'milestone'
+    assert wp.pick('noun') == 'cloud'
 
-    def testPickWithShuffles(self):
-        wp = WordPicker(Words().TEST, seed=1)
+    assert wp.pick('noun') == 'cloud'
+    assert wp.pick('noun') == 'dot-bomb'
+    assert wp.pick('noun') == 'milestone'
 
-        self.assertEquals(wp.pick('noun'), 'dot-bomb')
-        self.assertEquals(wp.pick('noun'), 'milestone')
-        self.assertEquals(wp.pick('noun'), 'cloud')
+    assert wp.pick('noun') == 'cloud'
+    assert wp.pick('noun') == 'milestone'
+    assert wp.pick('noun') == 'dot-bomb'
 
-        self.assertEquals(wp.pick('noun'), 'cloud')
-        self.assertEquals(wp.pick('noun'), 'dot-bomb')
-        self.assertEquals(wp.pick('noun'), 'milestone')
+def testPickWithShufflesOneWordInList():
+    wp = WordPicker(Words().TEST, seed=1)
 
-        self.assertEquals(wp.pick('noun'), 'cloud')
-        self.assertEquals(wp.pick('noun'), 'milestone')
-        self.assertEquals(wp.pick('noun'), 'dot-bomb')
+    for i in xrange(2):
+        assert wp.pick('adjective') == 'value-added'
 
-    def testPickWithShufflesOneWordInList(self):
-        wp = WordPicker(Words().TEST, seed=1)
+def testInitRemovesEmptyButKeepsOthers():
+    wp = WordPicker(Words().TEST, doShuffles=False)
+    assert 'shouldBeRemoved' not in wp._wordTypes
+    assert set(['noun', 'verb', 'adjective', 'adverb']) == set(wp._wordTypes)
 
-        for i in xrange(2):
-            self.assertEquals(wp.pick('adjective'), 'value-added')
+def testPickNoShuffles():
+    wp = WordPicker(Words().TEST, doShuffles=False)
 
-    def testInitRemovesEmptyButKeepsOthers(self):
-        wp = WordPicker(Words().TEST, doShuffles=False)
-        self.assertNotIn('shouldBeRemoved', wp._wordTypes)
-        self.assertEquals(set(['noun', 'verb', 'adjective', 'adverb']), set(wp._wordTypes))
+    # Picking cycles round back to start of list
+    for i in xrange(2):
+        assert wp.pick('noun') == 'cloud'
+        assert wp.pick('noun') == 'dot-bomb'
+        assert wp.pick('noun') == 'milestone'
 
-    def testPickNoShuffles(self):
-        wp = WordPicker(Words().TEST, doShuffles=False)
+        assert wp.pick('verb') == 'virtualise'
 
-        # Picking cycles round back to start of list
-        for i in xrange(2):
-            self.assertEquals(wp.pick('noun'), 'cloud')
-            self.assertEquals(wp.pick('noun'), 'dot-bomb')
-            self.assertEquals(wp.pick('noun'), 'milestone')
-
-            self.assertEquals(wp.pick('verb'), 'virtualise')
-
-    def testPickN(self):
-        wp = WordPicker(Words().TEST, doShuffles=False)
-        self.assertRaises(ValueError, wp.pickN, 'noun', 0)
-        self.assertRaises(ValueError, wp.pickN, 'noun', -1)
-        self.assertEquals(['cloud'], wp.pickN('noun', 1))
-        self.assertEquals(['dot-bomb', 'milestone'], wp.pickN('noun', 2))
+def testPickN():
+    wp = WordPicker(Words().TEST, doShuffles=False)
+    with pytest.raises(ValueError):
+        wp.pickN('noun', 0)
+        wp.pickN('noun', -1)
+    assert ['cloud'] == wp.pickN('noun', 1)
+    assert ['dot-bomb' == 'milestone'], wp.pickN('noun', 2)
 
