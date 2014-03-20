@@ -1,24 +1,24 @@
 from buzzwordipsum.sentencegenerator import SentenceGenerator, Sentences
 from buzzwordipsum.wordpicker import WordPicker, Words
-import unittest
+import pytest
 
-class TestSentenceGenerator(unittest.TestCase):
+@pytest.fixture
+def sg():
+    return SentenceGenerator(Sentences().TEST, WordPicker(Words().TEST, seed=1), seed=1)
 
-    def setUp(self):
-        self._sg = SentenceGenerator(Sentences().TEST, WordPicker(Words().TEST, seed=1), seed=1)
+def testReplaceToken(sg):
+    assert sg.replaceToken('noun') == 'dot-bomb'
+    assert sg.replaceToken('verb, PARTICIPLE') == 'virtualising'
+    assert sg.replaceToken('verb') == 'virtualise'
+    assert sg.replaceToken('noun, PLURAL') == 'milestones'
 
-    def testReplaceToken(self):
-        self.assertEquals(self._sg.replaceToken('noun'), 'dot-bomb')
-        self.assertEquals(self._sg.replaceToken('verb, PARTICIPLE'), 'virtualising')
-        self.assertEquals(self._sg.replaceToken('verb'), 'virtualise')
-        self.assertEquals(self._sg.replaceToken('noun, PLURAL'), 'milestones')
+    with pytest.raises(ValueError):
+        sg.replaceToken('verb, PAST')
+        sg.replaceToken('noun, SINGULAR')
 
-        self.assertRaises(ValueError, self._sg.replaceToken, 'verb, PAST')
-        self.assertRaises(ValueError, self._sg.replaceToken, 'noun, SINGULAR')
+def testFillTemplate(sg):
+    assert sg.fillTemplate(sg._sentences[0]) == 'We aim to virtually virtualise our value-added dot-bomb.'
+    assert sg.fillTemplate(sg._sentences[1]) == 'Virtually virtualising our milestones.'
 
-    def testFillTemplate(self):
-        self.assertEquals(self._sg.fillTemplate(self._sg._sentences[0]), 'We aim to virtually virtualise our value-added dot-bomb.')
-        self.assertEquals(self._sg.fillTemplate(self._sg._sentences[1]), 'Virtually virtualising our milestones.')
-
-    def testGetSentence(self):
-        self.assertEquals(self._sg.getSentence(), 'We aim to virtually virtualise our value-added dot-bomb.')
+def testGetSentence(sg):
+    assert sg.getSentence() == 'We aim to virtually virtualise our value-added dot-bomb.'
