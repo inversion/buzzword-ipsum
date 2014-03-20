@@ -4,14 +4,18 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      src: ['js/main.js']
+      src: ['www/js/main.js']
     },
-    nose: {
-      src: 'webapp/buzzwordipsum',
-      options: {
-        virtualenv: process.env.WORKON_HOME + '/buzzwordipsum',
-        with_coverage: true,
-        cover_package: 'buzzwordipsum'
+    shell: {
+      pythontests: {
+        command: 'python setup.py test',
+        options: {
+          stdout: true,
+          failOnError: true,
+          execOptions: {
+            cwd: 'webapp'
+          }
+        }
       }
     },
     clean: {
@@ -35,7 +39,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-nose');
+  grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('forceOn', 'turns the --force option ON',
     function() {
@@ -67,11 +71,11 @@ module.exports = function(grunt) {
         }
         grunt.config.set(key, dir);
       }
-      grunt.task.run(['jshint', 'nose', 'forceOn', 'clean', 'forceOff', 'copy']);
+      grunt.task.run(['check', 'forceOn', 'clean', 'forceOff', 'copy']);
     }
   );
 
-  grunt.registerTask('check', ['jshint', 'nose']);
+  grunt.registerTask('check', ['jshint', 'shell:pythontests']);
 
   grunt.registerTask('default', function() {
     grunt.log.writeln('Usage: \'check\' or \'deploy\'.');
