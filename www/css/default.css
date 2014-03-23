@@ -10,10 +10,8 @@ p {
 body {
   padding-top: 20px;
   padding-bottom: 20px;
-  background-image:url('http://www.wikipronto.com/images/uploads/level_0/group_14/423124/merlin_mechanical_services_birmingham_ng.jpg');  
-	background-repeat:no-repeat;
-  background-attachment:fixed;
-  background-position:center; 
+  background: #000 url('http://farm2.staticflickr.com/1412/1264424156_24f4571b10_b.jpg') center center fixed no-repeat;
+  background-size: cover;
 }
 
 /* Customize container */
