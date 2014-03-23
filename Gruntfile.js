@@ -24,7 +24,9 @@ module.exports = function(grunt) {
     },
     copy: {
       staticTarget: {
-        src: ['www'],
+        expand: true,
+        cwd: 'www/',
+        src: '**',
         dest: '<%= staticTarget %>/'
       },
       wsgiTarget: {
