@@ -11,6 +11,8 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   background: #000 url('http://farm2.staticflickr.com/1412/1264424156_24f4571b10_b.jpg') center center fixed no-repeat;
+  /* Set background size to 100% for browsers that don't recognise cover */
+  background-size: 100%;
   background-size: cover;
 }
 
