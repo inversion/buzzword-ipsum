@@ -28,7 +28,7 @@ def make_app_testing():
     app = Flask(__name__)
     app.config.update(DEFAULT_CONFIG)
     app.config.update({
-        'ROUTE_NAME': '/buzzwords',
+        'ROUTE_NAME': '/buzzwordsf',
         'DEBUG': True,
         'TESTING': True
     })
@@ -55,18 +55,18 @@ class BuzzwordIpsum(restful.Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('paragraphs',
                             type=checkParagraphsArg,
-                            help='Number of paragraphs: positive integer <= ' + str(self.appconfig['MAX_NUM_PARAGRAPHS']),
+                            help='Number of paragraphs should be a positive integer <= ' + str(self.appconfig['MAX_NUM_PARAGRAPHS']),
                             default=self.appconfig['DEFAULT_NUM_PARAGRAPHS'])
         parser.add_argument('type',
                             type=str,
                             choices=('words', 'sentences'),
                             dest='proseType',
-                            help='Type: \'words\', \'sentences\'',
-                            default='words')
+                            help='Type should be \'words\' or \'sentences\' (default)',
+                            default='sentences')
         parser.add_argument('format',
                             type=str,
                             choices=('html', 'text'),
-                            help='Format: \'html\' or \'text\' (default)',
+                            help='Format should be \'html\' or \'text\' (default)',
                             default='text')
         args = parser.parse_args()
 

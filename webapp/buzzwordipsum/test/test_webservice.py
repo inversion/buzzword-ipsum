@@ -16,12 +16,12 @@ def testPageFound(wsapp):
     assert rv.status_code == httplib.OK
 
 def testNoParamsReturnsDefaultNumberOfParasWithExpectedWords(wsapp):
-    rv = wsapp.get(wsapp.config['ROUTE_NAME'])
+    rv = wsapp.get(wsapp.config['ROUTE_NAME'], query_string='type=words')
     wp = wordpicker.WordPicker.factory(wsapp.config)
     assert rv.get_data() == '\n\n'.join([' '.join(wp.pickN('noun', wsapp.config['WORDS_PER_PARAGRAPH'])) for i in xrange(wsapp.config['DEFAULT_NUM_PARAGRAPHS'])]) + '\n'
 
 def testParagraphsParamReturnsDifferentNumberOfParagraphs(wsapp):
-    rv = wsapp.get(wsapp.config['ROUTE_NAME'], query_string='paragraphs=1')
+    rv = wsapp.get(wsapp.config['ROUTE_NAME'], query_string='paragraphs=1&type=words')
     wp = wordpicker.WordPicker.factory(wsapp.config)
     assert rv.get_data() == ' '.join(wp.pickN('noun', wsapp.config['WORDS_PER_PARAGRAPH'])) + '\n'
 
@@ -36,11 +36,11 @@ def testMaxNumberOfParagraphsFunctions(wsapp):
 
     rv = wsapp.get(wsapp.config['ROUTE_NAME'], query_string='paragraphs=' + str(wsapp.config['MAX_NUM_PARAGRAPHS'] + 1))
     assert rv.status_code == httplib.BAD_REQUEST
-    errStr = 'Number of paragraphs: positive integer <= ' + str(wsapp.config['MAX_NUM_PARAGRAPHS'])
+    errStr = 'Number of paragraphs should be a positive integer <= ' + str(wsapp.config['MAX_NUM_PARAGRAPHS'])
     assert errStr in rv.data
 
 def testHTMLResponse(wsapp):
-    rv = wsapp.get(wsapp.config['ROUTE_NAME'], query_string='format=html&paragraphs=1')
+    rv = wsapp.get(wsapp.config['ROUTE_NAME'], query_string='format=html&paragraphs=1&type=words')
     assert rv.content_type == 'text/html'
     wp = wordpicker.WordPicker.factory(wsapp.config)
     assert rv.data == '<p>' + ' '.join(wp.pickN('noun', wsapp.config['WORDS_PER_PARAGRAPH'])) + '</p>\n'

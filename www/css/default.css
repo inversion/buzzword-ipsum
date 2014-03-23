@@ -2,10 +2,6 @@ html * {
     font-family: "Georgia", "Times New Roman", "serif"; 
 }
 
-p {
-    font-size: 120%;
-}
-
 /* Space out content a bit */
 body {
   padding-top: 20px;

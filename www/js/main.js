@@ -9,6 +9,14 @@ $(document).ready(function () {
       data: $(this).serialize()
     }).done(function( data, textStatus, jqXHR ) {
       $('#textOut').html(data);
+    }).fail(function( jqXHR, textStatus, errorThrown ) {
+      var errText;
+      try {
+        errText = JSON.parse(jqXHR.responseText).message;
+      } catch(e) {
+        errText = 'Something went wrong, we got "' + errorThrown + '". Sorry about that, we\'ll fix it soon.';
+      }
+      $('#textOut').html('<p><span style="color: red;">Error:</span> ' + errText + '</p>');
     });
     event.preventDefault();
   });
