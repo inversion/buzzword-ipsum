@@ -32,3 +32,8 @@ body {
 #textOut > p {
   font-size: 18px;
 }
+
+.addthis_toolbox {
+  max-width: 380px;
+  margin: 0 auto;
+}
