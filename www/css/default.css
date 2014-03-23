@@ -28,3 +28,7 @@ body {
   font-size: 21px;
   padding: 14px 24px;
 }
+
+#textOut > p {
+  font-size: 18px;
+}
