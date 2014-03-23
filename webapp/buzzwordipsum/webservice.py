@@ -28,7 +28,7 @@ def make_app_testing():
     app = Flask(__name__)
     app.config.update(DEFAULT_CONFIG)
     app.config.update({
-        'ROUTE_NAME': '/buzzwordsf',
+        'ROUTE_NAME': '/buzzwords',
         'DEBUG': True,
         'TESTING': True
     })
