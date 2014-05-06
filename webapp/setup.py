@@ -7,7 +7,7 @@ import buzzwordipsum
 class PyTest(TestCommand):
     def finalize_options(self):
         TestCommand.finalize_options(self)
-        self.test_args = ['--cov', 'buzzwordipsum']
+        self.test_args = ['--cov', 'buzzwordipsum', '--cov-report', 'term-missing']
         self.test_suite = True
 
     def run_tests(self):
