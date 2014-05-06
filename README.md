@@ -14,6 +14,11 @@ Development
 To develop with the built-in webserver serving the webapp and the static
 files:
 
+    cd webapp
+    python setup.py develop
+    cd buzzwordipsum
     python webservice.py
 
-This will also auto-refresh python and static file changes.
+This will also auto-refresh Python and static file changes.
+
+Go to http://localhost:5000/index.html ('/' will not work because the development mode doesn't have directory indexes).
