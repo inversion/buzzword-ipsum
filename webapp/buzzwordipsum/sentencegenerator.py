@@ -65,10 +65,14 @@ class Sentences(object):
         self.TEST = ['We aim to [adverb] [verb] our [adjective] [noun].',
                     '[adverb] [verb, PARTICIPLE] our [noun, PLURAL].']
 
-        self.ALL = ['We aim to [adverb] [verb] our [noun] by [adverb] [verb, PARTICIPLE] the [adjective] [adjective] [noun].',
-                    # TODO: May need to use pattern module pluralisation instead of appending s
-                    'Our business [verb]s our [noun] to [adverb] and [adverb] [verb] our [adjective] [noun].',
-                    '[adverb] [verb, PARTICIPLE] the [adverb] [adjective] [noun] is crucial to our [adjective] [noun].',
+        self.ALL = ['We aim to [adverb] [verb] our [noun] by [adverb] [verb, PARTICIPLE] our [adjective] [adjective] [noun, PLURAL].',
+                    'Our business [verb]s [noun, PLURAL] to [adverb] and [adverb] [verb] our [adjective] [noun].',
+                    '[adverb] [verb, PARTICIPLE] [adverb] [adjective] [noun, PLURAL] is crucial to our [adjective] [noun].',
                     'In the future, will you be able to [adverb] [verb] [noun, PLURAL] in your business?',
-                    'In the [noun] space, industry is [adverb] [verb, PARTICIPLE] its [adjective] [noun, PLURAL].']
+                    'In the [noun] space, industry is [adverb] [verb, PARTICIPLE] its [adjective] [noun, PLURAL].',
+                    'Going forward, our [adjective] [noun] will deliver value to [noun, PLURAL].',
+                    'Change the way you do business - adopt [adjective] [noun, PLURAL].',
+                    'Efficiencies will come from [adverb] [verb, PARTICIPLE] our [noun, PLURAL].',
+                    'So we can hit the ground running, we will be [adverb] [verb, PARTICIPLE] every [noun] in our space.',
+                    'Key players will take ownership of their [noun, PLURAL] by [adverb] [verb, PARTICIPLE] [adjective] [noun, PLURAL].']
 
