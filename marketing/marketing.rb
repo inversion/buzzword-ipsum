@@ -7,8 +7,6 @@ require 'oauth'
 YAML_FILE = "./twitter_user.yml"
 
 class Twitterer
-  attr_accessor :username
-  attr_accessor :password
   
   @@baseurl = "https://api.twitter.com"	
 
@@ -19,8 +17,6 @@ class Twitterer
   
   def loadUserProperties()
     properties = YAML.load_file(YAML_FILE)
-    @username = properties["username"]
-	@password = properties["password"]	
 	
 	@consumer_key = OAuth::Consumer.new(
 		properties["apikey"],
