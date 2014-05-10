@@ -11,12 +11,6 @@ class Twitterer
   attr_accessor :password
   
   @@baseurl = "https://api.twitter.com"	
-  @@consumer_key = OAuth::Consumer.new(
-	"UgswaHbTZF36PH6znsh9PkPGM",
-	"NyIOHcFouZjiKMayU7DWrKjxw817nCtSu213NGpXDvWrdZqKP6")
-  @@access_token = OAuth::Token.new(
-	"2415395470-diHLjzbI441ypGqGweKK5bbfD82G7cSYh5zpJVl",
-	"nrGV3uRX9MHYDzOwrI3wEhH5yBd1ffrMPUvfEYIGTx1Ho")
 
   # Create the object
   def initialize()
@@ -27,6 +21,16 @@ class Twitterer
     properties = YAML.load_file(YAML_FILE)
     @username = properties["username"]
 	@password = properties["password"]	
+	
+	@consumer_key = OAuth::Consumer.new(
+		properties["apikey"],
+		properties["apisecret"]
+	)
+	@access_token = OAuth::Token.new(
+		properties["accesstoken"],
+		properties["accesssecret"]
+	)
+	
   end
   
   # Print data about a Tweet
@@ -82,7 +86,7 @@ class Twitterer
 	end
 	
 	def sendRequest(request, http)
-		request.oauth! http, @@consumer_key, @@access_token
+		request.oauth! http, @consumer_key, @access_token
 		http.start
 		response = http.request request
 	end
