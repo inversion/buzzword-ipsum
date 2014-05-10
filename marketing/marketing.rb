@@ -1,6 +1,10 @@
 require 'rubygems'
+
+require 'yaml'
 require 'json'
 require 'oauth'
+
+YAML_FILE = "./twitter_user.yml"
 
 class Twitterer
   attr_accessor :username
@@ -16,22 +20,25 @@ class Twitterer
 
   # Create the object
   def initialize()
-    @username = "buzzwordipsum"
-	@password = "passw0rd"
-	
+	loadUserProperties    
+  end
+  
+  def loadUserProperties()
+    properties = YAML.load_file(YAML_FILE)
+    @username = properties["username"]
+	@password = properties["password"]	
   end
   
   # Print data about a Tweet
-	def print_tweet()
+	def print_tweet(id)
 		path    = "/1.1/statuses/show.json"
-		query   = URI.encode_www_form("id" => "266270116780576768")
+		query   = URI.encode_www_form("id" => id)
 		address = URI("#{@@baseurl}#{path}?#{query}")
 		
 		request = Net::HTTP::Get.new address.request_uri
 
 		# Set up HTTP.
-		http = setupHTTP(address)
-		
+		http = setupHTTP(address)		
 		response = sendRequest(request, http)
 
 		# Parse and print the Tweet if the response code was 200
@@ -51,6 +58,7 @@ class Twitterer
 		request = Net::HTTP::Post.new address.request_uri
 		request.set_form_data("status" => "Hello, business world!")
 		
+		# Set up HTTP.
 		http = setupHTTP(address)
 		response = sendRequest(request, http)
 		
@@ -81,14 +89,22 @@ class Twitterer
 
 end
 
-if __FILE__ == $0
-	twitterer = Twitterer.new
-	puts twitterer.username  
-
-	puts twitterer.print_tweet
-	
-	puts "now trying to send a tweet..."
-	twitterer.sendTweet("Hello, Business World!");
-	puts "done?"
-	
+def printUsage
+	puts "Usage: marketing.rb {tweet} {message}"
 end
+
+twitterer = Twitterer.new
+
+case ARGV[0]
+when "tweet"
+	ARGV[1].nil? ? printUsage : twitterer.sendTweet(ARGV[1])
+else
+	printUsage
+end
+
+#To get information about a tweet
+#puts twitterer.print_tweet(200)
+
+#To send a tweet
+#puts "now trying to send a tweet..."
+#twitterer.sendTweet("Hello, Business World!");

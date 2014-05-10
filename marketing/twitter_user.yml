@@ -1,2 +1,7 @@
-username: <yourusername>
-password: <yourpassword>
+username: <your user>
+password: <your password>
+
+apikey: <your key>
+apisecret: <your key>
+accesstoken: <your token>
+accesssecret: <your token>
