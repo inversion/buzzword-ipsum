@@ -135,8 +135,36 @@ class Buzzworder
    
 end
 
+#I name my classes what I want
+class SleepyBuzzworder
+	
+	def synergise
+		loop do
+			tweetBuzzword
+			minuteOffset = (-10 + rand(20)) * 60
+			delay = 1 * 60 * 60 + minuteOffset
+			puts "Sleeping for: #{delay.div(60*60)} hours, #{delay.div(60) % 60} minutes"
+			sleep(delay) #sleep an hour or so
+			puts "I'm back!"
+		end
+	end
+end
+
+def tweetBuzzword
+	buzzworder = Buzzworder.new
+	sentence = ""
+	loop do
+		sentence = buzzworder.getSentence
+		break if (sentence != "No strings less than 140 characters. Try again!" && sentence != "")
+	end
+	twitterer = Twitterer.new
+	twitterer.sendTweet(sentence)	
+	
+	return sentence
+end
+
 def printUsage
-	puts "Usage: marketing.rb {tweet message}/{buzzwords}"
+	puts "Usage: marketing.rb {tweet message}/{buzzwords}/{automatedBuzzwordify}"
 end
 
 case ARGV[0]
@@ -144,25 +172,10 @@ when "tweet"
 	twitterer = Twitterer.new
 	ARGV[1].nil? ? printUsage : twitterer.sendTweet(ARGV[1])
 when "buzzwords"
-	buzzworder = Buzzworder.new
-	sentence = ""
-	loop do
-		sentence = buzzworder.getSentence
-		break if (sentence != "No strings less than 140 characters. Try again!" && sentence != "")
-	end
-	 
-	puts sentence
-	
-	twitterer = Twitterer.new
-	twitterer.sendTweet(sentence)
-	
+	tweetBuzzword
+when "automatedBuzzwordify"
+	sleepy = SleepyBuzzworder.new
+	sleepy.synergise #permanent loop
 else 
 	printUsage
 end
-
-#To get information about a tweet
-#puts twitterer.print_tweet(200)
-
-#To send a tweet
-#puts "now trying to send a tweet..."
-#twitterer.sendTweet("Hello, Business World!");
