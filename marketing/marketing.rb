@@ -49,6 +49,28 @@ class Twitterer
 		end
 	end
 	
+	#Get a list of the account's followers
+	def getFollowers
+		path = "/1.1/followers/list.json"
+		query = URI.encode_www_form("screen_name" => "BuzzwordIpsum")
+		address = URI("#{@@baseurl}#{path}?#{query}")
+		
+		request = Net::HTTP::Get.new address.request_uri
+		
+		http=setupHTTP(address)
+		response = sendRequest(request, http)
+		
+		if response.code == '200' then
+			users = JSON.parse(response.body)			
+			return users["users"]
+		end
+	end
+	
+	def getRandomFollowerName(users)
+		selection = rand(0...users.length) #i.e. 0..numusers - 1
+		return users[selection]["screen_name"]
+	end
+	
 	# Sends a tweet
 	def sendTweet(message)
 		path = "/1.1/statuses/update.json"
@@ -97,16 +119,14 @@ class Buzzworder
   
   def setupHTTP(address)
 	http             = Net::HTTP.new address.host, address.port
-	#http.use_ssl     = true
-	#http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 	return http
   end
   
-  def getParagraph()
+  def getParagraph(type = "sentences")
 	path    = "/buzzwords"
-	#query   = URI.encode_www_form("id" => id)
-	#address = URI("#{@@baseurl}#{path}?#{query}")
-	address = URI("#{@@baseurl}#{path}")
+	query   = URI.encode_www_form("type" => type)
+	address = URI("#{@@baseurl}#{path}?#{query}")
+	#address = URI("#{@@baseurl}#{path}")
 	
 	request = Net::HTTP::Get.new address.request_uri
 
@@ -118,8 +138,7 @@ class Buzzworder
 	return response.body		
    end
    
-   def getSentence()
-   
+   def getSentence()   
 		para = getParagraph()
 		#given a paragraph, find a sentence that's < 144 characters - i.e. loop until EOF
 		sentenceRegex = /[^(\. )].*?[\.\?]/ 
@@ -127,10 +146,26 @@ class Buzzworder
 		results = para.scan(sentenceRegex)
 		results.each do |result|
 			if result.length <= 140
+				#one in 4 times, add a hash tag to the end of the message (if it'll fit)
+				if rand(0..3) == 0
+					potentialHashtag = " " + getHashtag
+					if (result.length + potentialHashtag.length <= 140)
+						result = result + potentialHashtag
+					end
+				end
+				
 				return result
 			end
 		end
 		return "No strings less than 140 characters. Try again!"
+   end
+   
+   def getHashtag
+		para = getParagraph("words")
+		#pick a word, any word (well, okay, it'll be the second word. but it's random so shhhh)
+		wordRegex = / (.*?) /
+		match = wordRegex.match(para).captures[0]
+		return "#" + match
    end
    
 end
@@ -164,7 +199,7 @@ def tweetBuzzword
 end
 
 def printUsage
-	puts "Usage: marketing.rb {tweet message}/{buzzwords}/{automatedBuzzwordify}"
+	puts "Usage: marketing.rb {tweet message}/{buzzwords}/{automatedBuzzwordify}/{follower}"
 end
 
 case ARGV[0]
@@ -176,6 +211,10 @@ when "buzzwords"
 when "automatedBuzzwordify"
 	sleepy = SleepyBuzzworder.new
 	sleepy.synergise #permanent loop
+when "follower"
+	twitterer = Twitterer.new
+	fo = twitterer.getFollowers
+	puts twitterer.getRandomFollowerName(fo)
 else 
 	printUsage
 end
