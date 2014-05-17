@@ -52,11 +52,10 @@ class Twitterer
 	# Sends a tweet
 	def sendTweet(message)
 		path = "/1.1/statuses/update.json"
-		query = URI.encode_www_form("status" => message)
 		address = URI("#{@@baseurl}#{path}")
 		
 		request = Net::HTTP::Post.new address.request_uri
-		request.set_form_data("status" => "Hello, business world!")
+		request.set_form_data("status" => message)
 		
 		# Set up HTTP.
 		http = setupHTTP(address)
@@ -86,19 +85,78 @@ class Twitterer
 		http.start
 		response = http.request request
 	end
+end
 
+class Buzzworder
+	@@baseurl = "http://www.buzzwordipsum.com"	
+
+  # Create the object
+  def initialize()
+	    
+  end
+  
+  def setupHTTP(address)
+	http             = Net::HTTP.new address.host, address.port
+	#http.use_ssl     = true
+	#http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+	return http
+  end
+  
+  def getParagraph()
+	path    = "/buzzwords"
+	#query   = URI.encode_www_form("id" => id)
+	#address = URI("#{@@baseurl}#{path}?#{query}")
+	address = URI("#{@@baseurl}#{path}")
+	
+	request = Net::HTTP::Get.new address.request_uri
+
+	# Set up HTTP.
+	http = setupHTTP(address)		
+	http.start
+	response = http.request request
+	
+	return response.body		
+   end
+   
+   def getSentence()
+   
+		para = getParagraph()
+		#given a paragraph, find a sentence that's < 144 characters - i.e. loop until EOF
+		sentenceRegex = /[^(\. )].*?[\.\?]/ 
+		
+		results = para.scan(sentenceRegex)
+		results.each do |result|
+			if result.length <= 140
+				return result
+			end
+		end
+		return "No strings less than 140 characters. Try again!"
+   end
+   
 end
 
 def printUsage
-	puts "Usage: marketing.rb {tweet} {message}"
+	puts "Usage: marketing.rb {tweet message}/{buzzwords}"
 end
-
-twitterer = Twitterer.new
 
 case ARGV[0]
 when "tweet"
+	twitterer = Twitterer.new
 	ARGV[1].nil? ? printUsage : twitterer.sendTweet(ARGV[1])
-else
+when "buzzwords"
+	buzzworder = Buzzworder.new
+	sentence = ""
+	loop do
+		sentence = buzzworder.getSentence
+		break if (sentence != "No strings less than 140 characters. Try again!" && sentence != "")
+	end
+	 
+	puts sentence
+	
+	twitterer = Twitterer.new
+	twitterer.sendTweet(sentence)
+	
+else 
 	printUsage
 end
 
