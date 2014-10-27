@@ -1,8 +1,5 @@
 #!/bin/bash
 
-set -o nounset
-set -o errexit
-
 export WORKON_HOME=/usr/local/virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
 workon $VENV_NAME
