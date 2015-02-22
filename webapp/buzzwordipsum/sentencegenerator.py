@@ -18,6 +18,8 @@ class SentenceGenerator(object):
 
     def fillTemplate(self, template):
         """Replace all tokens in a template and return it, also capitalising the first letter."""
+        if template == '': return template
+
         s = re.sub(r'\[(.+?)\]', lambda x: self.replaceToken(x.group(1)), template)
 
         return s[0].upper() + s[1:]
