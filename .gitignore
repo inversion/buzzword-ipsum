@@ -1,5 +1,5 @@
 *.swp
 *.pyc
 *.coverage
+webapp/*.egg*
 node_modules
-buzzwordipsum.egg-info
