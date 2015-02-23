@@ -20,5 +20,12 @@ def testFillTemplate(sg):
     assert sg.fillTemplate(sg._sentences[0]) == 'We aim to virtually virtualise our value-added dot-bomb.'
     assert sg.fillTemplate(sg._sentences[1]) == 'Virtually virtualising our milestones.'
 
+def testFillTemplateWorksOnEmptyString(sg):
+    assert sg.fillTemplate('') == ''
+
+def testFillTemplateFailsGracefullyIfUnsupportedTokenPassedIn(sg):
+    assert sg.fillTemplate('We [bob]') == 'We [bob]'
+    assert sg.fillTemplate('We [noun] [bob]').find('[bob]') > -1
+
 def testGetSentence(sg):
     assert sg.getSentence() == 'We aim to virtually virtualise our value-added dot-bomb.'
