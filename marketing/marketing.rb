@@ -121,21 +121,26 @@ class Buzzworder
 	http             = Net::HTTP.new address.host, address.port
 	return http
   end
+
+  def sendRequest(paramMap)
+    path = "/buzzwords"
+    query   = URI.encode_www_form(paramMap)
+    address = URI("#{@@baseurl}#{path}?#{query}")
+    request = Net::HTTP::Get.new address.request_uri
+
+    # Set up HTTP.
+    http = setupHTTP(address)
+    http.start
+    response = http.request request
+
+    response.body
+  end
   
   def getParagraph(type = "sentences")
-	path    = "/buzzwords"
-	query   = URI.encode_www_form("type" => type)
-	address = URI("#{@@baseurl}#{path}?#{query}")
-	#address = URI("#{@@baseurl}#{path}")
-	
-	request = Net::HTTP::Get.new address.request_uri
+  params = { "type" => type }
 
-	# Set up HTTP.
-	http = setupHTTP(address)		
-	http.start
-	response = http.request request
+  sendRequest params
 	
-	return response.body		
    end
    
    def getSentence()   
@@ -147,26 +152,33 @@ class Buzzworder
 		results.each do |result|
 			if result.length <= 140
 				#one in 4 times, add a hash tag to the end of the message (if it'll fit)
-				if rand(0..3) == 0
-					potentialHashtag = " " + getHashtag
+				#if rand(0..1) == 0
+					potentialHashtag = " " + getHashtag.gsub(/[ \-]/, '')
 					if (result.length + potentialHashtag.length <= 140)
 						result = result + potentialHashtag
 					end
-				end
+				#end
 				
 				return result
 			end
 		end
 		return "No strings less than 140 characters. Try again!"
    end
-   
-   def getHashtag
-		para = getParagraph("words")
-		#pick a word, any word (well, okay, it'll be the second word. but it's random so shhhh)
-		wordRegex = / (.*?) /
-		match = wordRegex.match(para).captures[0]
-		return "#" + match
-   end
+
+  def getHashtag
+    word = getSingleWord
+		return "#" + word.downcase
+  end
+
+  def getSingleWord(type = "any")
+
+    if type == "any"
+      types = ["noun", "noun, plural", "verb, PARTICIPLE", "adjective"]
+      type = types.sample
+    end
+    params = { "template" => '[' + type + ']'}
+    sendRequest params
+  end
    
 end
 
