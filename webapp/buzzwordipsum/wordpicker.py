@@ -69,7 +69,7 @@ class Words(object):
                              'deep-dive', 'offshore', 'integrate',
                              'reuse', 'align', 'connect',
                              'monetize', 'strategize', 'incentivize',
-                             'invest'],
+                             'invest', 'engineer', 'facilitate', 'right-size'],
             'noun': ['dot-bomb', 'user experience', 'milestone',
                          'alignment', 'ballpark figure',
                          'bandwidth', 'brand',
@@ -84,15 +84,17 @@ class Words(object):
                         'agile workflow', 'emerging market', 'cloud',
                         'synergy', 'low hanging fruit', 'big data',
                         'organic growth', 'step-change', 'driver',
-                        'action point'],
+                        'action point', 'vertical', 'standard setter',
+                        'industry leader'],
             'adjective': ['value-added', 'mission critical', 'immersive',
                                 'customer-focused', 'holistic', 'mobile',
                                 'end-to-end', 'long-term', 'proactive',
                                 'best-of-breed', 'seamless', 'competitive',
-                                'actionable', 'innovative', 'best-in-class'],
+                                'actionable', 'innovative', 'best-in-class',
+                                'company-wide', 'senior', 'knowledge transfer',
+                                'corporate', 'wholesale'],
             'adverb': ['effectively', 'dynamically', 'virtually', 'strategically', 'reliably', 'globally',
-                            'proactively', 'iteratively', 'ethically',
-                            'intelligently']
+                            'proactively', 'iteratively', 'ethically', 'intelligently', 'conservatively']
             }
 
         self.TEST = {'verb': ['virtualise'],

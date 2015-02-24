@@ -68,9 +68,16 @@ class BuzzwordIpsum(restful.Resource):
                             choices=('html', 'text'),
                             help='Format should be \'html\' or \'text\' (default)',
                             default='text')
+        parser.add_argument('template',
+                            type=str,
+                            help='Template should be a string with words to be replaced in square brackets. e.g. "We [verb] our [noun, PLURAL]" will return a string with the bracketed words replaced. To get different forms/tenses, add options after a comma. Supported word types are adverb, noun, adjective, verb. Supported options are verb, PARTICIPLE and noun, PLURAL.',
+                            default=None)
         args = parser.parse_args()
 
-        paragraphs = [makeParagraph(args['proseType'], wp, sg, self.appconfig) for i in xrange(args['paragraphs'])]
+        if args['template'] is not None:
+            paragraphs = [sg.fillTemplate(args['template'])]
+        else:
+            paragraphs = [makeParagraph(args['proseType'], wp, sg, self.appconfig) for i in xrange(args['paragraphs'])]
 
         if args['format'] == 'text':
             return Response('\n\n'.join(paragraphs) + '\n', content_type='text/plain')

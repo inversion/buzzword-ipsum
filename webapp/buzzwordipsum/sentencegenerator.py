@@ -18,6 +18,8 @@ class SentenceGenerator(object):
 
     def fillTemplate(self, template):
         """Replace all tokens in a template and return it, also capitalising the first letter."""
+        if template == '': return template
+
         s = re.sub(r'\[(.+?)\]', lambda x: self.replaceToken(x.group(1)), template)
 
         return s[0].upper() + s[1:]
@@ -43,7 +45,10 @@ class SentenceGenerator(object):
                 # Assumes all nouns defined as singulars
                 return ptn.pluralize(self._wp.pick('noun'))
         else:
-            return self._wp.pick(token[0])
+            try:
+                return self._wp.pick(token[0])
+            except KeyError as e:
+                return '[' + tokenStr + ']'
 
     @classmethod
     def factory(cls, conf, wp):
@@ -74,5 +79,11 @@ class Sentences(object):
                     'Change the way you do business - adopt [adjective] [noun, PLURAL].',
                     'Efficiencies will come from [adverb] [verb, PARTICIPLE] our [noun, PLURAL].',
                     'So we can hit the ground running, we will be [adverb] [verb, PARTICIPLE] every [noun] in our space.',
-                    'Key players will take ownership of their [noun, PLURAL] by [adverb] [verb, PARTICIPLE] [adjective] [noun, PLURAL].']
+                    'Key players will take ownership of their [noun, PLURAL] by [adverb] [verb, PARTICIPLE] [adjective] [noun, PLURAL].',
+                    '[adverb] touching base about [verb, PARTICIPLE] [noun, PLURAL] will make us leaders in the [adjective] [noun] industry.',
+                    '[adjective] [noun, PLURAL] [adverb] enable [adjective] [noun, PLURAL] for our [noun, PLURAL].',
+                    'Is your [noun] prepared for [adjective] [noun] growth?',
+                    '[adjective] [noun, PLURAL] are becoming [adjective] [noun] experts.',
+                    'We thrive because of our [adjective] [noun] and [adjective] [noun] culture.',
+                    'It\'s critical that we give 110% when [adverb] [verb, PARTICIPLE] [noun, PLURAL].']
 

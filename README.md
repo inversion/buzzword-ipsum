@@ -1,6 +1,8 @@
 buzzword-ipsum
 ==============
 
+A businesslike Lorem Ipsum generator.
+
 Requirements
 ===
 * Python 2.7
