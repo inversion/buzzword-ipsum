@@ -173,7 +173,7 @@ class Buzzworder
   def getSingleWord(type = "any")
 
     if type == "any"
-      types = ["noun", "noun, plural", "verb, PARTICIPLE", "adjective"]
+      types = ["noun", "noun, PLURAL", "verb", "verb, PARTICIPLE", "adjective"]
       type = types.sample
     end
     params = { "template" => '[' + type + ']'}
