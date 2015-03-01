@@ -1,3 +1,4 @@
+# This Python file uses the following encoding: utf-8
 import random
 import logging
 
@@ -92,7 +93,8 @@ class Words(object):
                                 'best-of-breed', 'seamless', 'competitive',
                                 'actionable', 'innovative', 'best-in-class',
                                 'company-wide', 'senior', 'knowledge transfer',
-                                'corporate', 'wholesale'],
+                                'corporate', 'wholesale', 'next-generation',
+                                'world-class', 'unparalleled'],
             'adverb': ['effectively', 'dynamically', 'virtually', 'strategically', 'reliably', 'globally',
                             'proactively', 'iteratively', 'ethically', 'intelligently', 'conservatively']
             }
