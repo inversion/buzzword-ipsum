@@ -33,23 +33,34 @@ class SentenceGenerator(object):
         # Split the token string on commas and ignore trailing and leading whitespace on each element
         token = tuple(map(str.strip, tokenStr.split(',')))
 
+        ret = ''
+
         # TODO: Not the nicest way of doing the parsing, the sentence template format may need to be changed too.
         if len(token) == 2:
-            if token[0] == 'verb':
+            if token[0].lower() == 'verb':
                 if token[1] not in ['PARTICIPLE']:
                     raise ValueError('Invalid tense for verb conjugation')
                 # TODO: It hurts to use eval
-                return ptn.conjugate(self._wp.pick('verb'), tense=eval('ptn.' + token[1]))
-            elif token[0] == 'noun':
+                ret = ptn.conjugate(self._wp.pick('verb'), tense=eval('ptn.' + token[1]))
+            elif token[0].lower() == 'noun':
                 if token[1] not in ['PLURAL']:
                     raise ValueError('Invalid plurality for noun.')
                 # Assumes all nouns defined as singulars
-                return ptn.pluralize(self._wp.pick('noun'))
+                ret = ptn.pluralize(self._wp.pick('noun'))
         else:
             try:
-                return self._wp.pick(token[0])
+                ret = self._wp.pick(token[0].lower())
             except KeyError as e:
-                return '[' + tokenStr + ']'
+                ret = '[' + tokenStr + ']'
+
+        # if the token is passed in with Title Case or UPPER CASE, return the words in the same
+        if not token[0].islower():
+            if token[0].istitle():
+                ret = ret.title()
+            else:
+                ret = ret.upper()
+
+        return ret;
 
     @classmethod
     def factory(cls, conf, wp):
