@@ -1,3 +1,4 @@
+# This Python file uses the following encoding: utf-8
 import random
 import re
 import pattern.en as ptn
