@@ -86,5 +86,8 @@ class Sentences(object):
                     'Is your [noun] prepared for [adjective] [noun] growth?',
                     '[adjective] [noun, PLURAL] are becoming [adjective] [noun] experts.',
                     'We thrive because of our [adjective] [noun] and [adjective] [noun] culture.',
-                    'It\'s critical that we give 110% when [adverb] [verb, PARTICIPLE] [noun, PLURAL].']
+                    'It\'s critical that we give 110% when [adverb] [verb, PARTICIPLE] [noun, PLURAL].',
+                    'Our [noun] development lifecycle enables [adjective], [adjective] [noun, PLURAL].',
+                    'We use our [adjective] [noun, PLURAL] to [adverb] manage our [noun] expectations.',
+                    'Our [adjective] [noun]™ offers [noun, PLURAL] a suite of [adjective] offerings.']
 
