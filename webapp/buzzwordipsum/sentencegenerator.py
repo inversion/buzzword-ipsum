@@ -100,5 +100,6 @@ class Sentences(object):
                     'It\'s critical that we give 110% when [adverb] [verb, PARTICIPLE] [noun, PLURAL].',
                     'Our [noun] development lifecycle enables [adjective], [adjective] [noun, PLURAL].',
                     'We use our [adjective] [noun, PLURAL] to [adverb] manage our [noun] expectations.',
-                    'Our [Adjective] [Noun] solution offers [noun, PLURAL] a suite of [adjective] offerings.']
+                    'Our [Adjective] [Noun] solution offers [noun, PLURAL] a suite of [adjective] offerings.',
+                    'You need to [adverb] [verb] your [noun, PLURAL] to increase your [noun] velocity.']
 
