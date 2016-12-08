@@ -13,6 +13,10 @@ $(document).ready(function () {
       var errText;
       try {
         errText = JSON.parse(jqXHR.responseText).message;
+
+        if( typeof errText === 'object' ) {
+            errText = JSON.stringify( errText, null, 2 );
+        }
       } catch(e) {
         errText = 'Something went wrong, we got "' + errorThrown + '". Sorry about that, we\'ll fix it soon.';
       }
