@@ -86,7 +86,7 @@ class Words(object):
                         'synergy', 'low hanging fruit', 'big data',
                         'organic growth', 'step-change', 'driver',
                         'action point', 'vertical', 'standard setter',
-                        'industry leader', 'knowledge transfer', 'intrapreneur', 'imagineering'],
+                        'industry leader', 'knowledge transfer', 'intrapreneur', 'imagineering', 'product', 'creator', 'digital nomad', 'growth hacker'],
             'adjective': ['value-added', 'mission critical', 'immersive',
                                 'customer-focused', 'holistic', 'mobile',
                                 'end-to-end', 'long-term', 'proactive',
@@ -94,7 +94,7 @@ class Words(object):
                                 'actionable', 'innovative', 'best-in-class',
                                 'company-wide', 'senior', 'cloud native',
                                 'corporate', 'wholesale', 'next-generation',
-                                'world-class', 'unparalleled', 'product'],
+                                'world-class', 'unparalleled', 'self-driving'],
             'adverb': ['effectively', 'dynamically', 'virtually', 'strategically', 'reliably', 'globally',
                             'proactively', 'iteratively', 'ethically', 'intelligently', 'conservatively']
             }
