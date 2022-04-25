@@ -13,11 +13,11 @@ class WordPicker(object):
             random.seed(seed)
 
         # Remove empty word types
-        for wordType in self._wordTypes.keys():
+        for wordType in list(self._wordTypes.keys()):
             words = self._wordTypes[wordType]
             if len(words) == 0:
                 del self._wordTypes[wordType]
-                logging.warn('Word type \'' + wordType + '\' has no words, ignoring it.')
+                logging.warning('Word type \'' + wordType + '\' has no words, ignoring it.')
 
         # Shuffle each list initially
         if self._doShuffles:
@@ -43,7 +43,7 @@ class WordPicker(object):
     def pickN(self, wordType, n):
         if n < 1:
             raise ValueError('Must pick >= 1 words')
-        return [self.pick(wordType) for i in xrange(n)]
+        return [self.pick(wordType) for i in range(n)]
 
     @classmethod
     def factory(cls, conf):

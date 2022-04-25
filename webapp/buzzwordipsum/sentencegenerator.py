@@ -41,6 +41,11 @@ class SentenceGenerator(object):
                 if token[1] not in ['PARTICIPLE']:
                     raise ValueError('Invalid tense for verb conjugation')
                 # TODO: It hurts to use eval
+                # TODO: See https://github.com/clips/pattern/issues/295
+                try:
+                    ptn.conjugate("hate")
+                except:
+                    pass
                 ret = ptn.conjugate(self._wp.pick('verb'), tense=eval('ptn.' + token[1]))
             elif token[0].lower() == 'noun':
                 if token[1] not in ['PLURAL']:

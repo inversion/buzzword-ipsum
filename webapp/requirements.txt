@@ -1,0 +1,8 @@
+Flask>=2
+webargs>=8.1.0
+Pattern>=2.6
+pytest>=1.4.20
+pytest-cov>=1.6
+hypothesis>=6
+nltk>=3.7
+Werkzeug>=0.16.1

@@ -24,7 +24,7 @@ def testPickWithShuffles():
 def testPickWithShufflesOneWordInList():
     wp = WordPicker(Words().TEST, seed=1)
 
-    for i in xrange(2):
+    for i in range(2):
         assert wp.pick('adjective') == 'value-added'
 
 def testInitRemovesEmptyButKeepsOthers():
@@ -36,7 +36,7 @@ def testPickNoShuffles():
     wp = WordPicker(Words().TEST, doShuffles=False)
 
     # Picking cycles round back to start of list
-    for i in xrange(2):
+    for i in range(2):
         assert wp.pick('noun') == 'cloud'
         assert wp.pick('noun') == 'dot-bomb'
         assert wp.pick('noun') == 'milestone'

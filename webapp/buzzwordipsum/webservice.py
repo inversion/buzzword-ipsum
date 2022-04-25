@@ -1,9 +1,9 @@
 # This Python file uses the following encoding: utf-8
 from flask import Flask, Response
-from flask.ext import restful
-from flask.ext.restful import reqparse
-from wordpicker import WordPicker, Words
-from sentencegenerator import SentenceGenerator, Sentences
+from webargs import fields, validate
+from webargs.flaskparser import use_args
+from buzzwordipsum.wordpicker import WordPicker, Words
+from buzzwordipsum.sentencegenerator import SentenceGenerator, Sentences
 
 DEFAULT_CONFIG = {
     'DEFAULT_NUM_PARAGRAPHS': 3,
@@ -20,9 +20,8 @@ def make_app_production():
     app.config.update({
         'ROUTE_NAME': '/'
     })
-    api = restful.Api(app)
-    BuzzwordIpsum.appconfig = app.config
-    api.add_resource(BuzzwordIpsum, app.config['ROUTE_NAME'])
+
+    apply_routes(app)
     return app
 
 def make_app_testing():
@@ -34,51 +33,33 @@ def make_app_testing():
         'TESTING': True
     })
 
-    from werkzeug import SharedDataMiddleware
+    from werkzeug.middleware.shared_data import SharedDataMiddleware
     import os
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
       '/': os.path.join(os.path.dirname(__file__), '../../www')
     })
 
-    api = restful.Api(app)
-    BuzzwordIpsum.appconfig = app.config
-    api.add_resource(BuzzwordIpsum, app.config['ROUTE_NAME'])
+    apply_routes(app)
     return app
 
-class BuzzwordIpsum(restful.Resource):
-    def get(self):
-        wp = WordPicker.factory(self.appconfig)
-        sg = SentenceGenerator.factory(self.appconfig, wp)
+def apply_routes(app):
+    user_args = {
+        "paragraphs": fields.Int(load_default=app.config['DEFAULT_NUM_PARAGRAPHS'], validate=[validate.Range(min=1, max=app.config['MAX_NUM_PARAGRAPHS'])]),
+        "type": fields.Str(load_default='sentences', validate=[validate.OneOf(["words", "sentences"])]),
+        "format": fields.Str(load_default='text', validate=[validate.OneOf(["html", "text"])]),
+        # "template": fields.Str(description='Template should be a string with words to be replaced in square brackets. e.g. "We [verb] our [noun, PLURAL]" will return a string with the bracketed words replaced. To get different forms/tenses, add options after a comma. Supported word types are adverb, noun, adjective, verb. Supported options are verb, PARTICIPLE and noun, PLURAL.')
+    }
 
-        # TODO: Hack to allow passing of the app config to checkParagraphsArg when run from the RequestParser
-        checkParagraphsArg.__defaults__ = (self.appconfig,)
+    @app.route(app.config['ROUTE_NAME'], methods=["GET"])
+    @use_args(user_args, location='querystring')
+    def buzzwords(args):
+        wp = WordPicker.factory(app.config)
+        sg = SentenceGenerator.factory(app.config, wp)
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('paragraphs',
-                            type=checkParagraphsArg,
-                            help='Number of paragraphs should be a positive integer <= ' + str(self.appconfig['MAX_NUM_PARAGRAPHS']),
-                            default=self.appconfig['DEFAULT_NUM_PARAGRAPHS'])
-        parser.add_argument('type',
-                            type=str,
-                            choices=('words', 'sentences'),
-                            dest='proseType',
-                            help='Type should be \'words\' or \'sentences\' (default)',
-                            default='sentences')
-        parser.add_argument('format',
-                            type=str,
-                            choices=('html', 'text'),
-                            help='Format should be \'html\' or \'text\' (default)',
-                            default='text')
-        parser.add_argument('template',
-                            type=str,
-                            help='Template should be a string with words to be replaced in square brackets. e.g. "We [verb] our [noun, PLURAL]" will return a string with the bracketed words replaced. To get different forms/tenses, add options after a comma. Supported word types are adverb, noun, adjective, verb. Supported options are verb, PARTICIPLE and noun, PLURAL.',
-                            default=None)
-        args = parser.parse_args()
-
-        if args['template'] is not None:
-            paragraphs = [sg.fillTemplate(args['template'])]
-        else:
-            paragraphs = [makeParagraph(args['proseType'], wp, sg, self.appconfig) for i in xrange(args['paragraphs'])]
+        # if 'template' in args:
+        #     paragraphs = [sg.fillTemplate(args['template'])]
+        # else:
+        paragraphs = [makeParagraph(args['type'], wp, sg, app.config) for i in range(args['paragraphs'])]
 
         if args['format'] == 'text':
             return Response('\n\n'.join(paragraphs) + '\n', content_type='text/plain')
@@ -89,16 +70,7 @@ def makeParagraph(proseType, wp, sg, appconfig):
     if proseType == 'words':
         return ' '.join(wp.pickN('noun', appconfig['WORDS_PER_PARAGRAPH']))
     elif proseType == 'sentences':
-        return ' '.join([sg.getSentence() for i in xrange(appconfig['SENTENCES_PER_PARAGRAPH'])])
-
-def checkParagraphsArg(x, appconfig=None):
-    try:
-        x = int(str(x))
-        if x < 1 or x > appconfig['MAX_NUM_PARAGRAPHS']:
-            raise ValidationError()
-    except ValueError:
-        raise ValidationError()
-    return x
+        return ' '.join([sg.getSentence() for i in range(appconfig['SENTENCES_PER_PARAGRAPH'])])
 
 if __name__ == "__main__":
     make_app_testing().run()
