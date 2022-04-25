@@ -50,7 +50,7 @@ def apply_routes(app):
         # "template": fields.Str(description='Template should be a string with words to be replaced in square brackets. e.g. "We [verb] our [noun, PLURAL]" will return a string with the bracketed words replaced. To get different forms/tenses, add options after a comma. Supported word types are adverb, noun, adjective, verb. Supported options are verb, PARTICIPLE and noun, PLURAL.')
     }
 
-    @app.route(app.config['ROUTE_NAME'], methods=["GET"])
+    @app.route(app.config['ROUTE_NAME'], methods=["GET"], strict_slashes=False)
     @use_args(user_args, location='querystring')
     def buzzwords(args):
         wp = WordPicker.factory(app.config)
