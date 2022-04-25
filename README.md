@@ -5,7 +5,7 @@ A businesslike Lorem Ipsum generator.
 
 Requirements
 ===
-* Python 2.7
+* Python 3.7
 * pip
 * node
 * npm
